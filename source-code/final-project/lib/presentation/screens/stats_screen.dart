@@ -21,16 +21,20 @@ class _StatsScreenState extends State<StatsScreen> {
   DateTime? currentSelectedDate;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     // Trigger transaction loading once when the screen is first built
-    context.read<StatsBloc>().add(const LoadStatsEvent());
+    context.read<StatsBloc>().add(const LoadStatsEvent(null));
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BlocConsumer<StatsBloc, StatsState>(
       listener: (context, state) {
         if (state is StatsDeleteSuccessState) {
           context
               .read<StatsBloc>()
-              .add(LoadStatsEvent(statsDate: currentSelectedDate));
+              .add(LoadStatsEvent(currentSelectedDate));
           showSnackBar(context, state.statsDeleteSucessMessage);
         }
       },

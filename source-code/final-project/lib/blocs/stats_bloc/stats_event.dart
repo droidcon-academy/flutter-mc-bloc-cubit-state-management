@@ -9,7 +9,7 @@ sealed class StatsEvent extends Equatable {
 
 class LoadStatsEvent extends StatsEvent {
   final DateTime? statsDate;
-  const LoadStatsEvent({this.statsDate});
+  const LoadStatsEvent(this.statsDate);
 }
 
 class StatsDateChangedEvent extends StatsEvent {

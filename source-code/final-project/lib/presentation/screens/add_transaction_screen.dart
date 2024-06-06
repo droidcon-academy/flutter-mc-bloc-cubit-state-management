@@ -139,7 +139,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 listener: (context, state) {
                   if (state is AddTransactionSuccess) {
                     context.read<HomeCubit>().loadTransactions();
-                    context.read<StatsBloc>().add(const LoadStatsEvent());
+                    context.read<StatsBloc>().add(const LoadStatsEvent(null));
                     showSnackBar(context, state.sucessMessage);
                     setState(() {
                       _amountController.text = "";

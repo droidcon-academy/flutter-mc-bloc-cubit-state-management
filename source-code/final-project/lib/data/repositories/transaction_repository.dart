@@ -33,11 +33,6 @@ class TransactionRepository {
     return latestTransactions;
   }
 
-// Delete a transaction of a specific id
-  Future<void> deleteTransaction(int transactionId) async {
-    await _transactionBox.delete(transactionId);
-  }
-
 // Calculates and returns the total income amount from all transactions.
   double getTotalIncome() {
     final allTransactions = getAllTransactions();
@@ -61,6 +56,11 @@ class TransactionRepository {
     return totalIncome - totalExpenses;
   }
 
+  // Delete a transaction of a specific id
+  Future<void> deleteTransaction(int transactionId) async {
+    await _transactionBox.delete(transactionId);
+  }
+
   // Retreive only the unique set of month-year in which atleast one transaction happened.
   Set<DateTime> getUniqueTransactionMonths() {
     final transactions = getAllTransactions();
@@ -75,15 +75,11 @@ class TransactionRepository {
   // Retreive transactions for a specified month, or if no date is provided then then latest month with transactions.
   // It filters transactions based on the specified month and sorts them chronologically.
   List<TransactionModel> getStatsTransactions({DateTime? statsDate}) {
-    final transactions = getAllTransactions();
-
+    
     // If statsDate is not provided, find the latest month with transactions
     if (statsDate == null) {
       // Get unique months from transactions
-      final uniqueMonths = transactions
-          .map((transaction) =>
-              DateTime(transaction.date.year, transaction.date.month))
-          .toSet();
+      final uniqueMonths = getUniqueTransactionMonths();
 
       if (uniqueMonths.isEmpty) {
         // Handle case where no transactions are available
@@ -96,6 +92,8 @@ class TransactionRepository {
       // Use the latest month as the statsDate
       statsDate = latestMonth;
     }
+
+    final transactions = getAllTransactions();
 
     // Filter transactions for the specified statsDate
     final statsTransactions = transactions

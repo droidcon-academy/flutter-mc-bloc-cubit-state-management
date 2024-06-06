@@ -8,6 +8,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this.transactionRepository) : super(HomeLoadingState());
 
+  
   SummaryModel calculateSummary() {
     // Calculate total income, expenses, and balance
     double totalIncome = transactionRepository.getTotalIncome();
@@ -19,7 +20,7 @@ class HomeCubit extends Cubit<HomeState> {
         totalBalance: totalBalance);
   }
 
-  Future<void> loadTransactions() async {
+ Future<void> loadTransactions() async {
     try {
       final transactions = transactionRepository.getLatestTransactions();
       final summary = calculateSummary();
@@ -27,10 +28,5 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       emit(HomeErrorState('Failed to load transactions'));
     }
-  }
-
-  Future<void> deleteTransaction(int transactionId) async {
-    await transactionRepository.deleteTransaction(transactionId);
-    emit(HomeDeleteSuccessState("Transaction deleted successfully !"));
   }
 }

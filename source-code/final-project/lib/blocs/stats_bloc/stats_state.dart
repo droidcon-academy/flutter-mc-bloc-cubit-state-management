@@ -18,7 +18,7 @@ class StatsLoadedState extends StatsState {
       {required this.transactions, required this.statsDates});
 
   @override
-  List<Object> get props => [transactions];
+  List<Object> get props => [transactions,statsDates];
 }
 
 class StatsErrorState extends StatsState {
